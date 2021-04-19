@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,7 +17,27 @@ public class UserHandler {
     private UserRepository userRepository;
     @GetMapping("/findAll/{page}/{size}")
     public Page<User> findAll(@PathVariable("page") Integer page, @PathVariable("size") Integer size){
-        Pageable pageable = PageRequest.of(page-1,size);
-        return userRepository.findAll(pageable);
+        PageRequest request = PageRequest.of(page-1,size);
+        return userRepository.findAll(request);
+    }
+    @PostMapping("/save")
+    public String save(@RequestBody User user){
+        User result = userRepository.save(user);
+        if(result != null)
+        {
+            return "success";
+        }else {
+            return "error";
+        }
+    }
+    @GetMapping("/findById/{id}")
+    public User findById(@PathVariable("id") Integer id){
+        return userRepository.findById(id).get();
+    }
+
+
+    @DeleteMapping("/deleteById/{id}")
+    public void deleteById(@PathVariable("id") Integer id){
+        userRepository.deleteById(id);
     }
 }
