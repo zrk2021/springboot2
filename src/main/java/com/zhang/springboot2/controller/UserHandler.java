@@ -1,5 +1,4 @@
 package com.zhang.springboot2.controller;
-
 import com.zhang.springboot2.entity.User;
 import com.zhang.springboot2.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
