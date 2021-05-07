@@ -10,6 +10,7 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
+import sun.misc.BASE64Encoder;
 public class CreateWordUtil {
 
     public static  void createWord(Map dataMap){
@@ -39,5 +40,24 @@ public class CreateWordUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public String getImageStr(String imgFile) {
+        InputStream in = null;
+        byte[] data = null;
+        try {
+            in = new FileInputStream(imgFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            data = new byte[in.available()];
+            //注：FileInputStream.available()方法可以从输入流中阻断由下一个方法调用这个输入流中读取的剩余字节数
+            in.read(data);
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        BASE64Encoder encoder = new BASE64Encoder();
+        return encoder.encode(data);
     }
 }
